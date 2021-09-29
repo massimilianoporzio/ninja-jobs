@@ -1,7 +1,9 @@
 <template>
-  <div id="nav">
+  <div id="nav" v-if="$route.name!=='404'">
     <router-link to="/">Home</router-link> |
-    <router-link :to="{name: 'About'}">About</router-link>
+    <router-link :to="{name: 'About'}">About</router-link> |
+    <router-link :to="{name: 'Jobs'}">Jobs</router-link>
+
   </div>
   <router-view/>
 </template>
