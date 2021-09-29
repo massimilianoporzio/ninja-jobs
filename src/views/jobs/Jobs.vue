@@ -1,21 +1,34 @@
 <template>
   <h1>Jobs</h1>
-   <div v-for="job in jobs" :key="job.id" class="job">
-     <router-link :to="{name: 'JobDetails', params:{id: job.id}}">
-       <h2>{{job.title}}</h2>
-     </router-link>
-   </div>
+  <div v-if="jobs.length">
+    <div v-for="job in jobs" :key="job.id" class="job">
+      <router-link :to="{name: 'JobDetails', params:{id: job.id}}">
+        <h2>{{job.title}}</h2>
+      </router-link>
+    </div>
+  </div>
+  <div v-else>
+    <p>Loading jobs...</p>
+  </div>
+
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 
 const name = 'Jobs'
 let jobs = ref([
-  {title: 'Ninja UX Designer',id: 1, details: 'lorem'},
-  {title: 'Ninja Wev Designer',id: 2, details: 'lorem'},
-  {title: 'Ninja Vue Designer',id: 3, details: 'lorem'}
+
 ])
+
+onMounted(()=>{
+  fetch('http://localhost:3000/jobs')
+  .then(res=>res.json())
+  .then(data=>{
+    jobs.value = data
+  })
+  .catch(err=>console.log(err.message))
+})
 </script>
 
 <style scoped>
